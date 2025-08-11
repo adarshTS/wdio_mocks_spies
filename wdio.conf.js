@@ -17,6 +17,7 @@ export const config = {
         osVersion: "11",
         seleniumVersion: "4.22.0",
         seleniumBidi: true,
+        networkLogs: true,
       },
     },
   ],
