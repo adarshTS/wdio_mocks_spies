@@ -1,5 +1,7 @@
 export const config = {
-  runner: "local",
+  user: process.env.BROWSERSTACK_USERNAME,
+  key: process.env.BROWSERSTACK_ACCESS_KEY,
+  hostname: "hub.browserstack.com",
   specs: ["./test/specs/**/*.js"],
   exclude: [],
   maxInstances: 10,
@@ -9,6 +11,13 @@ export const config = {
       "goog:chromeOptions": {
         args: ["--start-maximized"],
       },
+      "bstack:options": {
+        browserVersion: "latest",
+        os: "Windows",
+        osVersion: "11",
+        seleniumVersion: "4.22.0",
+        seleniumBidi: true,
+      },
     },
   ],
   logLevel: "info",
@@ -16,7 +25,18 @@ export const config = {
   waitforTimeout: 15000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
-  services: ["chromedriver"],
+  services: [
+    [
+      "browserstack",
+      { browserstackLocal: true, opts: { forcelocal: false } },
+      {
+        testObservabilityOptions: {
+          buildName: "WDIO Mocks and Spies",
+          projectName: "WDIO Mocks and Spies",
+        },
+      },
+    ],
+  ],
   framework: "mocha",
   reporters: ["spec"],
   mochaOpts: {
